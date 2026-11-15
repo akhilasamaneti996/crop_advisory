@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Crop Recommendation - Adaptive Crop Advisory{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <h1>Adaptive Crop Recommendation</h1>
+        <p>Predict optimal crops based on soil nutrient chemistry, climate parameters, and regional growth context.</p>
+      </div>
+      <div class="text-end">
+        <span class="badge badge-agro-success p-2">
+          <i class="fa-solid fa-circle-check me-1"></i> Random Forest ML: {{ (metrics.accuracy * 100)|round(2) }}% Accuracy
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Input Form Column -->
+    <div class="col-lg-7">
+      <div class="agro-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold text-dark mb-0">
+            <i class="fa-solid fa-flask text-success me-2"></i>Soil & Environmental Parameters
+          </h5>
+          <!-- Preset buttons for rapid testing -->
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Fill Sample
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#" onclick="fillSample('rice'); return false;">Rice Sample (High Rain/NPK)</a></li>
+              <li><a class="dropdown-item" href="#" onclick="fillSample('cotton'); return false;">Cotton Sample (Warm/Medium NPK)</a></li>
+              <li><a class="dropdown-item" href="#" onclick="fillSample('chickpea'); return false;">Chickpea Sample (Low N, Moderate Rain)</a></li>
+              <li><a class="dropdown-item" href="#" onclick="fillSample('coffee'); return false;">Coffee Sample (High Rain, Acidic Soil)</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <form id="cropForm">
+          <!-- Soil Nutrients N, P, K -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label for="nitrogen" class="form-label">Nitrogen (N)</label>
+              <div class="input-group">
+                <input type="number" step="any" min="0" max="300" class="form-control" id="nitrogen" name="nitrogen" placeholder="e.g. 90" required>
+                <span class="input-group-text input-unit">kg/ha</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="phosphorus" class="form-label">Phosphorus (P)</label>
+              <div class="input-group">
+                <input type="number" step="any" min="0" max="300" class="form-control" id="phosphorus" name="phosphorus" placeholder="e.g. 42" required>
+                <span class="input-group-text input-unit">kg/ha</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="potassium" class="form-label">Potassium (K)</label>
+              <div class="input-group">
+                <input type="number" step="any" min="0" max="300" class="form-control" id="potassium" name="potassium" placeholder="e.g. 43" required>
+                <span class="input-group-text input-unit">kg/ha</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Environmental Factors: Temperature, Humidity, pH, Rainfall -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="temperature" class="form-label">Temperature</label>
+              <div class="input-group">
+                <input type="number" step="any" min="-10" max="60" class="form-control" id="temperature" name="temperature" placeholder="e.g. 25.5" required>
+                <span class="input-group-text input-unit">°C</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="humidity" class="form-label">Relative Humidity</label>
+              <div class="input-group">
+                <input type="number" step="any" min="0" max="100" class="form-control" id="humidity" name="humidity" placeholder="e.g. 80" required>
+                <span class="input-group-text input-unit">%</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="ph" class="form-label">Soil pH</label>
+              <div class="input-group">
+                <input type="number" step="0.1" min="0" max="14" class="form-control" id="ph" name="ph" placeholder="e.g. 6.5" required>
+                <span class="input-group-text input-unit">pH</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="rainfall" class="form-label">Annual Rainfall</label>
+              <div class="input-group">
+                <input type="number" step="any" min="0" max="1500" class="form-control" id="rainfall" name="rainfall" placeholder="e.g. 200" required>
+                <span class="input-group-text input-unit">mm</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Contextual Fields -->
+          <h6 class="fw-semibold text-muted small text-uppercase mt-4 mb-3">Contextual Agronomic Details</h6>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label for="location" class="form-label">Field Location / Region</label>
+              <input type="text" class="form-control" id="location" name="location" placeholder="e.g. Telangana, Krishna Basin">
+            </div>
+            <div class="col-md-6">
+              <label for="soil_type" class="form-label">Soil Classification</label>
+              <select class="form-select" id="soil_type" name="soil_type">
+                <option value="Loamy">Loamy Soil</option>
+                <option value="Clayey">Clayey Soil</option>
+                <option value="Black Cotton">Black Cotton Soil</option>
+                <option value="Red Sandy">Red Sandy Soil</option>
+                <option value="Alluvial">Alluvial Soil</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="season" class="form-label">Farming Season</label>
+              <select class="form-select" id="season" name="season">
+                <option value="Kharif (Monsoon)">Kharif (Monsoon)</option>
+                <option value="Rabi (Winter)">Rabi (Winter)</option>
+                <option value="Zaid (Summer)">Zaid (Summer)</option>
+                <option value="Year-round">Year-round / Perennial</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="growth_stage" class="form-label">Planned Growth Stage</label>
+              <select class="form-select" id="growth_stage" name="growth_stage">
+                <option value="Sowing / Seedling">Sowing / Seedling</option>
+                <option value="Vegetative Stage">Vegetative Stage</option>
+                <option value="Flowering / Reproductive">Flowering / Reproductive</option>
+                <option value="Maturity / Harvesting">Maturity / Harvesting</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Error Alert Container -->
+          <div id="cropFormErrors" class="alert alert-danger d-none"></div>
+
+          <!-- Submit Button -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-agro btn-lg" id="btnSubmitCrop">
+              <i class="fa-solid fa-calculator me-2"></i> Predict Best Crop
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Prediction Results Column -->
+    <div class="col-lg-5">
+      <!-- Placeholder card before prediction -->
+      <div id="cropResultPlaceholder" class="agro-card p-4 text-center py-5">
+        <div class="my-4">
+          <i class="fa-solid fa-wheat-awn fs-1 text-success opacity-50 mb-3"></i>
+          <h5 class="fw-bold text-dark">Recommendation Awaited</h5>
+          <p class="text-muted small px-3">
+            Enter your soil testing numbers (N, P, K, pH) and microclimate data, or choose a preset sample to view the ML prediction and comprehensive agronomic suitability report.
+          </p>
+        </div>
+      </div>
+
+      <!-- Result Card (Populated after prediction) -->
+      <div id="cropResultCard" class="agro-card p-4 d-none">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <div>
+            <span class="badge badge-agro-success mb-1">Recommended Crop</span>
+            <h3 class="fw-bold text-success mb-0" id="resCropName">-</h3>
+            <div class="text-muted small fst-italic" id="resScientificName">-</div>
+          </div>
+          <div class="text-end">
+            <span class="badge bg-success fs-6" id="resConfidence">- %</span>
+            <div class="text-muted" style="font-size: 0.72rem;">Model Probability</div>
+          </div>
+        </div>
+
+        <hr class="my-3">
+
+        <!-- Top Candidates -->
+        <div class="mb-3">
+          <label class="small fw-semibold text-muted text-uppercase">Top Candidates</label>
+          <div class="d-flex flex-wrap gap-2 mt-1" id="resTopCandidates"></div>
+        </div>
+
+        <!-- Crop Information -->
+        <div class="p-3 bg-light rounded-3 mb-3 small">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Crop Category:</span>
+            <span class="fw-semibold text-dark" id="resCategory">-</span>
+          </div>
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Growing Season:</span>
+            <span class="fw-semibold text-dark" id="resSeason">-</span>
+          </div>
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Duration:</span>
+            <span class="fw-semibold text-dark" id="resDuration">-</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="text-muted">Ideal pH:</span>
+            <span class="fw-semibold text-dark" id="resIdealPh">-</span>
+          </div>
+        </div>
+
+        <!-- Suitability Explanation -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-dark small mb-1">
+            <i class="fa-solid fa-circle-info text-primary me-1"></i> Suitability Analysis
+          </h6>
+          <p class="small text-muted mb-0" id="resSuitability">-</p>
+        </div>
+
+        <!-- Cultivation Guidance -->
+        <div class="mb-4">
+          <h6 class="fw-bold text-dark small mb-1">
+            <i class="fa-solid fa-book-open-reader text-success me-1"></i> Basic Cultivation Guidance
+          </h6>
+          <p class="small text-muted mb-0" id="resGuidance">-</p>
+        </div>
+
+        <!-- Quick Action: Send to Advisory -->
+        <div class="d-grid">
+          <button type="button" class="btn btn-agro-outline btn-sm" id="btnSendToAdvisory">
+            <i class="fa-solid fa-brain me-1"></i> Send Parameters to Adaptive Advisory Engine
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/crop.js') }}"></script>
+{% endblock %}
+

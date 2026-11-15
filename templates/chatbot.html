@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Farmer Assistant - Adaptive Crop Advisory{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <h1>Farmer Assistant</h1>
+        <p>Interactive multilingual agricultural chatbot for real-time guidance on fertilizers, irrigation, pests, and soil management.</p>
+      </div>
+      <!-- Language and Audio Controls -->
+      <div class="d-flex align-items-center gap-2">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-light text-muted">
+            <i class="fa-solid fa-language"></i>
+          </span>
+          <select class="form-select form-select-sm" id="chatLanguageSelect" style="width: auto;">
+            <option value="en" selected>English</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" id="btnToggleSpeechOutput" title="Toggle Voice Response">
+          <i class="fa-solid fa-volume-high text-success" id="speechOutputIcon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Chat Interface Column -->
+    <div class="col-lg-8">
+      <div class="chat-container shadow-sm">
+        <!-- Messages Area -->
+        <div class="chat-messages" id="chatMessages">
+          <!-- Initial Assistant Welcome -->
+          <div class="chat-bubble assistant">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge bg-success p-1"><i class="fa-solid fa-robot"></i></span>
+              <strong class="small text-dark">Farmer Assistant</strong>
+            </div>
+            <div id="welcomeMessageText">
+              Hello! I am your Adaptive Crop Advisory assistant. You can ask me questions about crop selection, fertilizer application, irrigation scheduling, plant diseases, or weather precautions. How may I help you today?
+            </div>
+            <span class="msg-time text-muted">Just now</span>
+          </div>
+        </div>
+
+        <!-- Voice Recognition Status Banner -->
+        <div id="voiceStatusBanner" class="py-1 px-3 bg-warning bg-opacity-25 text-dark small d-none text-center">
+          <span class="spinner-grow spinner-grow-sm text-danger me-1" role="status"></span>
+          <span id="voiceStatusText">Listening to your voice... Speak now.</span>
+        </div>
+
+        <!-- Input Bar -->
+        <div class="chat-input-bar">
+          <button type="button" class="btn btn-outline-success" id="btnMic" title="Speak through Microphone">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+          <input type="text" class="form-control" id="chatInput" placeholder="Type your farming question here..." autocomplete="off">
+          <button type="button" class="btn btn-agro" id="btnSend">
+            <i class="fa-solid fa-paper-plane me-1"></i> <span class="d-none d-sm-inline">Send</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggested Topics & NLP Info Column -->
+    <div class="col-lg-4">
+      <!-- Quick Question Suggestions -->
+      <div class="agro-card p-3 mb-4">
+        <h6 class="fw-bold text-dark mb-2">
+          <i class="fa-solid fa-lightbulb text-warning me-1"></i> Suggested Inquiries
+        </h6>
+        <p class="small text-muted mb-3">Click on any sample question to send it to the assistant:</p>
+        
+        <div class="d-flex flex-column gap-2" id="suggestedQuestionsList">
+          <!-- Injected via JavaScript based on selected language -->
+        </div>
+      </div>
+
+      <!-- Assistant Intelligence Information -->
+      <div class="agro-card p-3">
+        <h6 class="fw-bold text-dark mb-2">
+          <i class="fa-solid fa-network-wired text-success me-1"></i> Chatbot Architecture
+        </h6>
+        <div class="small text-muted d-flex flex-column gap-2">
+          <div>
+            <strong>NLP Classifier:</strong>
+            <span class="badge bg-light text-dark border">TF-IDF + Logistic Regression</span>
+          </div>
+          <div>
+            <strong>Covered Domains:</strong>
+            <div class="d-flex flex-wrap gap-1 mt-1">
+              <span class="badge bg-secondary bg-opacity-10 text-dark">Diseases</span>
+              <span class="badge bg-secondary bg-opacity-10 text-dark">Fertilizer</span>
+              <span class="badge bg-secondary bg-opacity-10 text-dark">Irrigation</span>
+              <span class="badge bg-secondary bg-opacity-10 text-dark">Crops</span>
+              <span class="badge bg-secondary bg-opacity-10 text-dark">Weather</span>
+            </div>
+          </div>
+          <div>
+            <strong>Languages:</strong> English, తెలుగు, हिन्दी
+          </div>
+          <div>
+            <strong>Speech APIs:</strong> Web Speech Recognition & SpeechSynthesis
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}
+

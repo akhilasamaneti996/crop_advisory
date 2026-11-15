@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Adaptive Crop Advisory - Smart Farming Starts with Better Decisions{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container hero-content">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-semibold mb-3">
+          <i class="fa-solid fa-leaf me-1"></i> Data-Driven Precision Agriculture
+        </span>
+        <h1 class="hero-title">Smart Farming Starts with Better Decisions.</h1>
+        <p class="hero-subtitle">
+          An adaptive agricultural intelligence platform integrating soil chemistry, deep-learning leaf pathology, real-time weather analytics, and explainable agronomic decision engines to empower farmers with personalized field guidance.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-warning btn-lg px-4 py-2 fw-bold text-dark shadow">
+            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i> Get Started
+          </a>
+          <a href="{{ url_for('advisory.advisory_page') }}" class="btn btn-outline-light btn-lg px-4 py-2 fw-semibold">
+            <i class="fa-solid fa-brain me-2"></i> Adaptive Advisory
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block text-center">
+        <div class="p-4 bg-white bg-opacity-10 rounded-4 border border-light border-opacity-25 shadow-lg backdrop-blur">
+          <div class="d-flex align-items-center justify-content-between mb-3 text-white">
+            <span class="fw-semibold"><i class="fa-solid fa-chart-line text-warning me-2"></i>Multimodal Integration</span>
+            <span class="badge bg-success">Live Engine</span>
+          </div>
+          <div class="row g-2 text-start text-dark">
+            <div class="col-6">
+              <div class="bg-white p-3 rounded-3 shadow-sm">
+                <i class="fa-solid fa-flask text-success mb-2 fs-5"></i>
+                <div class="fw-bold small">Soil NPK Analysis</div>
+                <div class="text-muted" style="font-size: 0.75rem;">7 Soil & Climate Factors</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="bg-white p-3 rounded-3 shadow-sm">
+                <i class="fa-solid fa-disease text-danger mb-2 fs-5"></i>
+                <div class="fw-bold small">Leaf Pathology</div>
+                <div class="text-muted" style="font-size: 0.75rem;">MobileNetV2 CNN</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="bg-white p-3 rounded-3 shadow-sm">
+                <i class="fa-solid fa-cloud-sun text-primary mb-2 fs-5"></i>
+                <div class="fw-bold small">Live Weather</div>
+                <div class="text-muted" style="font-size: 0.75rem;">Fungal & Spray Alerts</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="bg-white p-3 rounded-3 shadow-sm">
+                <i class="fa-solid fa-comments text-info mb-2 fs-5"></i>
+                <div class="fw-bold small">Voice Assistant</div>
+                <div class="text-muted" style="font-size: 0.75rem;">EN / TE / HI NLP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Overview -->
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <span class="badge badge-agro-success px-3 py-2 mb-2">Core Platform Capabilities</span>
+    <h2 class="fw-bold text-dark">Comprehensive Agricultural Assistance</h2>
+    <p class="text-muted mx-auto" style="max-width: 600px;">
+      Combining multiple sensory and computational modalities to move beyond generic farming tips into tailored field recommendations.
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Feature 1: Crop Recommendation -->
+    <div class="col-lg-3 col-md-6">
+      <div class="agro-card h-100 p-4">
+        <div class="stat-icon mb-3">
+          <i class="fa-solid fa-wheat-awn"></i>
+        </div>
+        <h5 class="fw-bold text-dark">Crop Recommendation</h5>
+        <p class="text-muted small mb-3">
+          Machine learning model trained on soil Nitrogen, Phosphorus, Potassium, pH, temperature, humidity, and rainfall to identify the highest-yielding crop among 22 agricultural varieties.
+        </p>
+        <a href="{{ url_for('crop.crop_recommendation_page') }}" class="btn btn-agro-outline btn-sm w-100 mt-auto">
+          Explore Crops <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Feature 2: Disease Detection -->
+    <div class="col-lg-3 col-md-6">
+      <div class="agro-card h-100 p-4">
+        <div class="stat-icon mb-3 text-danger" style="background: #ffebee;">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <h5 class="fw-bold text-dark">Plant Disease Detection</h5>
+        <p class="text-muted small mb-3">
+          Deep learning computer vision via MobileNetV2 architecture. Inspects leaf images to identify blights, rusts, and healthy tissue with actionable symptoms, treatments, and cultural preventions.
+        </p>
+        <a href="{{ url_for('disease.disease_detection_page') }}" class="btn btn-agro-outline btn-sm w-100 mt-auto">
+          Analyze Leaf <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Feature 3: Weather Intelligence -->
+    <div class="col-lg-3 col-md-6">
+      <div class="agro-card h-100 p-4">
+        <div class="stat-icon mb-3 text-primary" style="background: #e1f5fe;">
+          <i class="fa-solid fa-cloud-sun-rain"></i>
+        </div>
+        <h5 class="fw-bold text-dark">Weather Intelligence</h5>
+        <p class="text-muted small mb-3">
+          Microclimate tracking connected to OpenWeather API. Evaluates humidity thresholds for fungal disease risks, wind velocity for pesticide spraying safety, and imminent rainfall for irrigation scheduling.
+        </p>
+        <a href="{{ url_for('weather.weather_page') }}" class="btn btn-agro-outline btn-sm w-100 mt-auto">
+          Check Weather <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Feature 4: Farmer Assistant -->
+    <div class="col-lg-3 col-md-6">
+      <div class="agro-card h-100 p-4">
+        <div class="stat-icon mb-3 text-info" style="background: #e0f2f1;">
+          <i class="fa-solid fa-comments"></i>
+        </div>
+        <h5 class="fw-bold text-dark">Farmer Assistant</h5>
+        <p class="text-muted small mb-3">
+          Interactive multilingual chatbot with speech recognition and voice synthesis. Answers queries regarding fertilizers, pest control, irrigation, and crop care in English, Telugu, and Hindi.
+        </p>
+        <a href="{{ url_for('chatbot.chatbot_page') }}" class="btn btn-agro-outline btn-sm w-100 mt-auto">
+          Talk to Assistant <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adaptive Decision Engine Highlight Banner -->
+  <div class="mt-5 p-4 rounded-4 bg-white border border-success border-opacity-25 shadow-sm">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="badge bg-success">Integration Core</span>
+          <h4 class="fw-bold text-dark mb-0">Multimodal Adaptive Advisory Engine</h4>
+        </div>
+        <p class="text-muted mb-0">
+          Our rule-based decision engine combines predictions from all modules—soil NPK, plant growth stage, pathological diagnosis, and live weather conditions—to output unified, actionable, and explainable recommendations for fertilizer dosage, irrigation intervals, and disease management.
+        </p>
+      </div>
+      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+        <a href="{{ url_for('advisory.advisory_page') }}" class="btn btn-agro btn-lg">
+          <i class="fa-solid fa-gears me-2"></i> Open Decision Engine
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

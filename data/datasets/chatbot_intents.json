@@ -1,0 +1,105 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "hello", "hi", "namaste", "hey", "good morning", "good evening", "greetings",
+        "నమస్కారం", "హలో", "బాగున్నారా",
+        "नमस्ते", "प्रणाम", "नमस्कार", "राम राम"
+      ],
+      "responses": {
+        "en": "Hello! Welcome to the Adaptive Crop Advisory system. How can I assist you with your farming today?",
+        "te": "నమస్కారం! అడాప్టివ్ క్రాప్ అడ్వైజరీ సిస్టమ్‌కు స్వాగతం. మీ వ్యవసాయ పనుల్లో నేను ఎలా సహాయపడగలను?",
+        "hi": "नमस्ते! एडेप्टिव क्रॉप एडवाइजरी सिस्टम में आपका स्वागत है। आज मैं आपकी खेती में कैसे सहायता कर सकता हूँ?"
+      }
+    },
+    {
+      "tag": "disease_query",
+      "patterns": [
+        "my crop leaves are turning yellow", "spots on leaves", "leaf rust symptoms",
+        "blight on tomato leaves", "how to treat fungal infection", "black spots on potato leaves",
+        "plant leaves have brown patches", "what to spray for leaf blight", "disease in tomato plant",
+        "రైతు ఆకులపై మచ్చలు ఉన్నాయి", "టమాటో ఆకులపై పసుపు మచ్చలు", "తెగులు నివారణ ఎలా", "మొక్కల రోగాల నివారణ",
+        "पौधों की पत्तियों पर काले धब्बे", "टमाटर में झुलसा रोग", "पत्तियों का पीला पड़ना", "फफूंद रोग का उपचार", "पत्ती रोग की दवा"
+      ],
+      "responses": {
+        "en": "Leaf discoloration or spots often indicate fungal or bacterial infections like early/late blight, or nutrient deficiencies. Please inspect whether spots have concentric rings. You can upload a photo in our Disease Detection module for an accurate image analysis, and ensure good air circulation while avoiding overhead watering.",
+        "te": "ఆకుల రంగు మారడం లేదా మచ్చలు తెగుళ్లు (బ్లైట్) లేదా పోషకాల లోపం వల్ల రావచ్చు. మీరు మన రోగ నిర్ధారణ (Disease Detection) విభాగంలో ఆకు ఫోటోను అప్‌లోడ్ చేసి పరీక్షించవచ్చు. మొక్కల మధ్య గాలి ప్రసరణ ఉండేలా చూసుకోండి.",
+        "hi": "पत्तियों पर धब्बे या पीलापन फफूंद (झुलसा/ब्लाइट) या पोषक तत्वों की कमी का संकेत हो सकता है। कृपया हमारे 'प्लांट डिजीज डिटेक्शन' मॉड्यूल में पत्ती की तस्वीर अपलोड करें। अनावश्यक जलभराव से बचें।"
+      }
+    },
+    {
+      "tag": "fertilizer_query",
+      "patterns": [
+        "which fertilizer to use for rice", "how much urea should I apply", "NPK fertilizer recommendation",
+        "fertilizer for flowering stage", "organic manure dosage", "phosphorus deficiency symptoms",
+        "when to apply potassium fertilizer", "fertilizer schedule for wheat and maize",
+        "వరికి ఏ ఎరువు వాడాలి", "యూరియా ఎప్పుడు వేయాలి", "ఎరువుల యాజమాన్యం", "డీఏపీ ఎంత వేయాలి",
+        "धान के लिए कौन सा खाद डालें", "यूरिया कब और कितनी मात्रा में डालें", "एनपीके खाद का उपयोग", "फूल आने के समय कौन सी खाद दें"
+      ],
+      "responses": {
+        "en": "Fertilizer requirements depend strictly on your soil nutrient test (N, P, K) and crop growth stage. For vegetative growth, balanced Nitrogen is vital, while Phosphorus and Potassium support root establishment and flowering/fruiting. Use our Advisory Engine with your soil test values for customized guidance.",
+        "te": "ఎరువుల వినియోగం మీ నేల పరీక్ష (N, P, K) మరియు పంట దశపై ఆధారపడి ఉంటుంది. మొదటి దశలో నత్రజని, పూత మరియు కాయ దశలో భాస్వరం మరియు పొటాష్ ఎంతో ముఖ్యం. ఖచ్చితమైన వివరాలకు మన సలహా ఇంజిన్‌ను సంప్రదించండి.",
+        "hi": "खाद का प्रयोग मिट्टी की जांच (NPK) और फसल की अवस्था के अनुसार ही करना चाहिए। वानस्पतिक वृद्धि में नाइट्रोजन और फूल/फल बनते समय फास्फोरस व पोटाश की आवश्यकता होती है।"
+      }
+    },
+    {
+      "tag": "irrigation_query",
+      "patterns": [
+        "how often should I water my crops", "drip irrigation timing", "irrigation schedule for tomato",
+        "is it safe to irrigate during rain", "how much water does maize need", "watering during flowering stage",
+        "soil is dry should I irrigate", "frequency of irrigation in summer",
+        "పంటకు ఎప్పుడు నీరు పెట్టాలి", "డ్రిప్ ఇరిగేషన్ సమయం", "నీటి పారుదల సలహాలు", "ఎండకాలంలో ఎన్ని రోజులకు నీరు ఇవ్వాలి",
+        "फसल में पानी कब देना चाहिए", "सिंचाई कितने दिन बाद करें", "टपक (ड्रिप) सिंचाई का सही समय", "बारिश के मौसम में सिंचाई"
+      ],
+      "responses": {
+        "en": "Watering depends heavily on soil moisture, weather forecast, and growth stage. Avoid heavy irrigation if rain is forecasted. Critical irrigation stages include seedling establishment, flowering, and grain/fruit filling. Drip irrigation early in the morning reduces water loss through evaporation.",
+        "te": "పంటకు నీరు అందించడం నేల తేమ, వాతావరణం మరియు పంట దశపై ఆధారపడి ఉంటుంది. వర్షం పడే సూచన ఉంటే నీరు పెట్టవద్దు. ఉదయం వేళల్లో డ్రిప్ ద్వారా నీరు అందించడం అత్యుత్తమం.",
+        "hi": "सिंचाई हमेशा मिट्टी की नमी और मौसम के पूर्वानुमान को देखकर करें। यदि बारिश की संभावना हो तो सिंचाई टालें। सुबह के समय ड्रिप सिंचाई से पानी की बचत होती है।"
+      }
+    },
+    {
+      "tag": "crop_recommendation_query",
+      "patterns": [
+        "what crop should I grow in sandy soil", "which crop is best for high rainfall", "recommend a suitable crop for my land",
+        "profitable crop for kharif season", "best crop for low nitrogen soil", "suggest crop based on climate",
+        "నా నేలలో ఏ పంట వేయాలి", "ఖరీఫ్ సీజన్ లో ఏ పంట మంచిది", "తక్కువ నీటితో పండే పంటలు",
+        "मेरी जमीन के लिए कौन सी फसल उपयुक्त है", "कम बारिश में कौन सी फसल उगाएं", "खरीफ मौसम की लाभदायक फसलें", "मिट्टी के अनुसार फसल का चुनाव"
+      ],
+      "responses": {
+        "en": "Crop suitability depends on Nitrogen, Phosphorus, Potassium, soil pH, temperature, humidity, and annual rainfall. Please visit our 'Crop Recommendation' page and enter your soil values; our Random Forest model will identify the best crop for your field.",
+        "te": "సరైన పంట ఎంపికకు నేలలోని N, P, K విలువలు, pH, ఉష్ణోగ్రత మరియు వర్షపాతం చాలా ముఖ్యం. దయచేసి మన 'Crop Recommendation' పేజీలో మీ వివరాలు నమోదు చేసి ఖచ్చితమైన సిఫార్సును పొందండి.",
+        "hi": "उपयुक्त फसल का चयन मिट्टी में N, P, K की मात्रा, pH मान, तापमान और वर्षा पर निर्भर करता है। कृपया हमारे 'क्रॉप रिकमेंडेशन' पेज पर अपनी मिट्टी के आंकड़े दर्ज करें।"
+      }
+    },
+    {
+      "tag": "weather_query",
+      "patterns": [
+        "is it good to spray pesticide today", "what is today's weather forecast", "will it rain today",
+        "wind speed and spraying advice", "humidity level impact on crops", "weather advisory for farmers",
+        "ఈ రోజు మందులు పిచికారీ చేయవచ్చా", "ఈ రోజు వర్షం పడుతుందా", "వాతావరణ సమాచారం",
+        "क्या आज कीटनाशक का छिड़काव कर सकते हैं", "आज का मौसम कैसा रहेगा", "क्या आज बारिश होगी", "मौसम और खेती संबंधी सलाह"
+      ],
+      "responses": {
+        "en": "Avoid chemical spraying when wind speed exceeds 15 km/h or if rainfall is expected within 6 to 12 hours. High relative humidity above 75% raises fungal disease risk. Check our 'Weather Intelligence' page for live conditions in your area.",
+        "te": "గాలి వేగం గంటకు 15 కి.మీ కంటే ఎక్కువగా ఉన్నప్పుడు లేదా వర్ష సూచన ఉన్నప్పుడు మందుల పిచికారీ చేయరాదు. గాలిలో తేమ 75% మించితే ఫంగల్ తెగుళ్ల ముప్పు పెరుగుతుంది. లైవ్ వాతావరణం కోసం 'Weather' పేజీని చూడండి.",
+        "hi": "तेज हवा (15 किमी/घंटे से अधिक) या बारिश की संभावना में कीटनाशक छिड़काव न करें। 75% से अधिक नमी में फंगल रोगों का खतरा बढ़ता है। मौसम की जानकारी के लिए 'वेदर' पेज देखें।"
+      }
+    },
+    {
+      "tag": "general_farming",
+      "patterns": [
+        "how to improve soil health", "crop rotation benefits", "organic farming tips",
+        "how to prevent pest attack", "storage tips for harvested grain", "weed management techniques",
+        "భూసారం ఎలా పెంచాలి", "సేంద్రీయ వ్యవసాయ పద్ధతులు", "కలుపు నివారణ ఎలా",
+        "मिट्टी की उर्वरता कैसे बढ़ाएं", "जैविक खेती के उपाय", "खरपतवार नियंत्रण कैसे करें", "फसल चक्र के लाभ"
+      ],
+      "responses": {
+        "en": "Maintain soil health by incorporating green manure, practicing regular crop rotation with legumes to replenish nitrogen, and performing soil tests every 2-3 years. Mulching helps conserve soil moisture and suppresses weed proliferation.",
+        "te": "పచ్చిరొట్ట ఎరువులు వాడటం మరియు పప్పుధాన్యాల పంటల మార్పిడి ద్వారా భూసారాన్ని పెంచవచ్చు. ప్రతి 2-3 సంవత్సరాలకు ఒకసారి నేల పరీక్ష చేయించుకోవడం ఉత్తమం.",
+        "hi": "हरी खाद का प्रयोग और दलहनी फसलों के साथ फसल चक्र अपनाने से मिट्टी की सेहत सुधरती है। नमी बनाए रखने और खरपतवार रोकने के लिए पलवार (मल्चिंग) का उपयोग करें।"
+      }
+    }
+  ]
+}
+

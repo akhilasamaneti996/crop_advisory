@@ -1,0 +1,32 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Environments
+venv/
+env/
+.venv/
+ENV/
+
+# Database files
+*.db
+*.sqlite3
+
+# Uploads directory contents (preserve folder structure)
+data/uploads/*
+!data/uploads/.gitkeep
+
+# Environment variables
+.env
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Operating system artifacts
+.DS_Store
+Thumbs.db
+

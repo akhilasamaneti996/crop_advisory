@@ -1,0 +1,458 @@
+/* Adaptive Crop Advisory - Main Stylesheet */
+:root {
+  --primary-dark: #1b4332;
+  --primary-green: #2d6a4f;
+  --secondary-green: #40916c;
+  --light-green: #52b788;
+  --mint-green: #74c69d;
+  --pale-green: #d8f3dc;
+  --bg-light: #f6f9f6;
+  --bg-card: #ffffff;
+  --text-dark: #1b2e23;
+  --text-muted: #5c675c;
+  --border-color: #e2ebe2;
+  --shadow-sm: 0 2px 8px rgba(27, 67, 50, 0.06);
+  --shadow-md: 0 4px 18px rgba(27, 67, 50, 0.08);
+  --shadow-lg: 0 8px 30px rgba(27, 67, 50, 0.12);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --transition: all 0.25s ease-in-out;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar-agro {
+  background: var(--primary-dark);
+  border-bottom: 2px solid var(--secondary-green);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-agro .navbar-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-agro .nav-link {
+  color: #e2ebe2;
+  font-weight: 500;
+  font-size: 0.92rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+
+.navbar-agro .nav-link:hover,
+.navbar-agro .nav-link.active {
+  color: #ffffff;
+  background-color: rgba(82, 183, 136, 0.25);
+}
+
+/* Page Layout */
+.page-container {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-size: 2rem;
+  margin-bottom: 0.35rem;
+}
+
+.page-header p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* Cards */
+.agro-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  overflow: hidden;
+  height: 100%;
+}
+
+.agro-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--mint-green);
+}
+
+.agro-card .card-header {
+  background: transparent;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.15rem 1.35rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.agro-card .card-body {
+  padding: 1.35rem;
+}
+
+/* Metric / Stat Card */
+.stat-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--secondary-green);
+}
+
+.stat-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: var(--pale-green);
+  color: var(--primary-green);
+}
+
+.stat-info h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+  color: var(--primary-dark);
+}
+
+.stat-info p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn-agro {
+  background-color: var(--primary-green);
+  color: #ffffff;
+  border: 1px solid var(--primary-green);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  padding: 0.55rem 1.25rem;
+  transition: var(--transition);
+}
+
+.btn-agro:hover,
+.btn-agro:focus {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: #ffffff;
+}
+
+.btn-agro-outline {
+  background-color: transparent;
+  color: var(--primary-green);
+  border: 1.5px solid var(--primary-green);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  padding: 0.55rem 1.25rem;
+  transition: var(--transition);
+}
+
+.btn-agro-outline:hover {
+  background-color: var(--primary-green);
+  color: #ffffff;
+}
+
+/* Badges */
+.badge-agro-success {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+  border: 1px solid #c8e6c9;
+  padding: 0.35rem 0.65rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.badge-agro-warning {
+  background-color: #fff8e1;
+  color: #f57f17;
+  border: 1px solid #ffe082;
+  padding: 0.35rem 0.65rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.badge-agro-danger {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+  padding: 0.35rem 0.65rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.badge-agro-info {
+  background-color: #e0f2f1;
+  color: #004d40;
+  border: 1px solid #b2dfdb;
+  padding: 0.35rem 0.65rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+/* Forms */
+.form-label {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--primary-dark);
+  margin-bottom: 0.35rem;
+}
+
+.form-control, .form-select {
+  border-radius: var(--radius-sm);
+  border: 1px solid #cedcd0;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.92rem;
+  transition: var(--transition);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--light-green);
+  box-shadow: 0 0 0 0.2rem rgba(82, 183, 136, 0.25);
+}
+
+.input-unit {
+  background: var(--pale-green);
+  color: var(--primary-green);
+  border: 1px solid #cedcd0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Image Upload Area */
+.upload-dropzone {
+  border: 2px dashed #9bc8a8;
+  background-color: #fbfdfb;
+  border-radius: var(--radius-md);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: var(--primary-green);
+  background-color: var(--pale-green);
+}
+
+.upload-preview {
+  max-width: 100%;
+  max-height: 280px;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+  color: #ffffff;
+  padding: 4.5rem 0 3.5rem 0;
+  border-radius: 0 0 2rem 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(116, 198, 157, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(82, 183, 136, 0.12) 0%, transparent 40%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: #d8f3dc;
+  max-width: 650px;
+  margin-bottom: 1.85rem;
+  line-height: 1.6;
+}
+
+/* Chatbot Styles */
+.chat-container {
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #fbfdfb;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 0.85rem 1.15rem;
+  border-radius: 14px;
+  font-size: 0.93rem;
+  line-height: 1.5;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.chat-bubble.farmer {
+  align-self: flex-end;
+  background-color: var(--primary-green);
+  color: #ffffff;
+  border-bottom-right-radius: 3px;
+}
+
+.chat-bubble.assistant {
+  align-self: flex-start;
+  background-color: #ffffff;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  border-bottom-left-radius: 3px;
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-bubble .msg-time {
+  font-size: 0.72rem;
+  margin-top: 0.35rem;
+  display: block;
+  opacity: 0.75;
+}
+
+.chat-input-bar {
+  padding: 0.85rem 1.15rem;
+  background: #ffffff;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+/* Loading Spinners */
+.agro-spinner {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Footer */
+.footer-agro {
+  background: #142e23;
+  color: #c8d8cc;
+  padding: 2.5rem 0 1.5rem 0;
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+.footer-agro a {
+  color: #74c69d;
+  text-decoration: none;
+}
+
+.footer-agro a:hover {
+  text-decoration: underline;
+}
+
+/* Alert Boxes */
+.agro-alert {
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.15rem;
+  font-size: 0.92rem;
+  border-left: 4px solid transparent;
+}
+
+.agro-alert-warning {
+  background-color: #fff8e1;
+  border-left-color: #ffa000;
+  color: #6d4c41;
+}
+
+.agro-alert-danger {
+  background-color: #ffebee;
+  border-left-color: #d32f2f;
+  color: #b71c1c;
+}
+
+.agro-alert-info {
+  background-color: #e8f5e9;
+  border-left-color: var(--primary-green);
+  color: var(--primary-dark);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  .stat-card {
+    padding: 1rem;
+  }
+  .chat-container {
+    height: 400px;
+  }
+}
+

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Weather Intelligence - Adaptive Crop Advisory{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <h1>Weather Intelligence</h1>
+        <p>Microclimate tracking and rule-based agricultural advisories for irrigation and chemical application.</p>
+      </div>
+      <div>
+        <button class="btn btn-agro-outline btn-sm" id="btnRefreshWeather">
+          <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh Weather
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- City Search Input Card -->
+  <div class="agro-card p-3 mb-4">
+    <form id="weatherSearchForm" class="row g-2 align-items-center">
+      <div class="col-md-9 col-sm-8">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="fa-solid fa-location-dot text-success"></i>
+          </span>
+          <input type="text" class="form-control border-start-0 ps-0" id="cityInput" placeholder="Enter city name (e.g. Hyderabad, Nagpur, Pune, Bengaluru)" value="Hyderabad" required>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-4 d-grid">
+        <button type="submit" class="btn btn-agro" id="btnSearchCity">
+          <i class="fa-solid fa-magnifying-glass me-1"></i> Get Weather
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- API Key Missing Notification (Shown when API key is not configured) -->
+  <div id="weatherConfigNotice" class="alert alert-warning shadow-sm d-none mb-4">
+    <div class="d-flex align-items-start">
+      <i class="fa-solid fa-key fs-3 text-warning me-3 mt-1"></i>
+      <div>
+        <h5 class="fw-bold mb-1">OpenWeather API Key Required for Live Meteorological Data</h5>
+        <p class="small mb-2">
+          This system uses the official OpenWeather REST API for real-time weather and forecast retrieval. To enable live data:
+        </p>
+        <ol class="small mb-2 ps-3">
+          <li>Create a free account at <a href="https://openweathermap.org/api" target="_blank" class="fw-bold text-decoration-underline">openweathermap.org/api</a>.</li>
+          <li>Copy your API key.</li>
+          <li>Open the <code>.env</code> file in your project folder and add: <code>OPENWEATHER_API_KEY=your_actual_key</code></li>
+          <li>Restart the Flask server or refresh this page.</li>
+        </ol>
+        <p class="small text-muted mb-0 fst-italic">
+          Note: In compliance with engineering standards, this system will never display fabricated real-time weather data.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div id="weatherLoading" class="text-center py-5 d-none">
+    <span class="agro-spinner me-2" style="border-color: #2d6a4f; border-top-color: transparent; width: 2rem; height: 2rem;"></span>
+    <div class="mt-2 text-muted fw-semibold">Retrieving meteorological telemetry...</div>
+  </div>
+
+  <!-- Weather Display Dashboard (Shown when data is successfully loaded) -->
+  <div id="weatherDashboard" class="d-none">
+    <!-- Current Weather Metrics Row -->
+    <div class="row g-4 mb-4">
+      <!-- Main Overview Card -->
+      <div class="col-lg-4">
+        <div class="agro-card p-4 h-100 text-center">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="badge badge-agro-info" id="weatherLocationBadge">City, Country</span>
+            <span class="small text-muted" id="weatherTimeBadge">Current</span>
+          </div>
+          <img id="weatherIcon" src="" alt="Weather Icon" style="width: 100px; height: 100px;" class="my-1">
+          <h1 class="display-4 fw-bold text-dark mb-0" id="weatherTemp">-- °C</h1>
+          <div class="text-muted fw-semibold mb-3" id="weatherCondition">--</div>
+          <div class="d-flex justify-content-center gap-3 small text-muted border-top pt-2">
+            <div>Feels Like: <strong id="weatherFeelsLike">-- °C</strong></div>
+            <div>Precipitation: <strong id="weatherRain">0 mm</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Atmospheric Telemetry Grid -->
+      <div class="col-lg-8">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <div class="stat-card">
+              <div class="stat-icon text-primary" style="background: #e1f5fe;">
+                <i class="fa-solid fa-droplet"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="weatherHumidity">-- %</h3>
+                <p>Relative Humidity</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="stat-card">
+              <div class="stat-icon text-success" style="background: #e8f5e9;">
+                <i class="fa-solid fa-wind"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="weatherWind">-- km/h</h3>
+                <p>Wind Velocity</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="stat-card">
+              <div class="stat-icon text-warning" style="background: #fff8e1;">
+                <i class="fa-solid fa-gauge"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="weatherPressure">-- hPa</h3>
+                <p>Barometric Pressure</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="stat-card">
+              <div class="stat-icon text-info" style="background: #e0f2f1;">
+                <i class="fa-solid fa-cloud-showers-heavy"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="weatherRainSummary">0.0 mm</h3>
+                <p>Observed Rainfall</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule-Based Agricultural Advisories Section -->
+    <div class="agro-card p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold text-dark mb-0">
+          <i class="fa-solid fa-wheat-awn text-success me-2"></i>Weather-Driven Agricultural Suggestions
+        </h5>
+        <span class="small text-muted fst-italic">Rule-based agronomic guidelines</span>
+      </div>
+      <div class="row g-3" id="agriSuggestionsContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+      <div class="small text-muted mt-3 pt-2 border-top">
+        <i class="fa-solid fa-circle-info text-secondary me-1"></i>
+        <strong>Disclaimer:</strong> These recommendations are based on established agricultural thresholds (humidity > 75% for fungal spores, wind > 15 km/h for spray drift). They do not constitute scientifically verified pathology diagnoses.
+      </div>
+    </div>
+
+    <!-- 5-Day Forecast Chart -->
+    <div class="agro-card p-4">
+      <h5 class="fw-bold text-dark mb-3">
+        <i class="fa-solid fa-chart-line text-primary me-2"></i>Forecast Trends (Temperature & Humidity)
+      </h5>
+      <div style="height: 280px; position: relative;">
+        <canvas id="weatherForecastChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/weather.js') }}"></script>
+{% endblock %}
+

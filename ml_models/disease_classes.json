@@ -1,0 +1,58 @@
+{
+  "classes": [
+    "Potato___Early_blight",
+    "Potato___Late_blight",
+    "Potato___healthy",
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Tomato___healthy"
+  ],
+  "metadata": [
+    {
+      "index": 0,
+      "raw_name": "Potato___Early_blight",
+      "crop": "Potato",
+      "disease": "Early Blight",
+      "is_healthy": false
+    },
+    {
+      "index": 1,
+      "raw_name": "Potato___Late_blight",
+      "crop": "Potato",
+      "disease": "Late Blight",
+      "is_healthy": false
+    },
+    {
+      "index": 2,
+      "raw_name": "Potato___healthy",
+      "crop": "Potato",
+      "disease": "Healthy Leaf",
+      "is_healthy": true
+    },
+    {
+      "index": 3,
+      "raw_name": "Tomato___Early_blight",
+      "crop": "Tomato",
+      "disease": "Early Blight",
+      "is_healthy": false
+    },
+    {
+      "index": 4,
+      "raw_name": "Tomato___Late_blight",
+      "crop": "Tomato",
+      "disease": "Late Blight",
+      "is_healthy": false
+    },
+    {
+      "index": 5,
+      "raw_name": "Tomato___healthy",
+      "crop": "Tomato",
+      "disease": "Healthy Leaf",
+      "is_healthy": true
+    }
+  ],
+  "image_size": [
+    224,
+    224
+  ]
+}

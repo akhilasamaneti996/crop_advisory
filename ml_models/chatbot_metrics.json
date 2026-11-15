@@ -1,0 +1,19 @@
+{
+  "model_name": "TF-IDF + Logistic Regression Intent Classifier",
+  "total_training_patterns": 103,
+  "intent_tags": [
+    "greeting",
+    "disease_query",
+    "fertilizer_query",
+    "irrigation_query",
+    "crop_recommendation_query",
+    "weather_query",
+    "general_farming"
+  ],
+  "cv_accuracy": 0.3877,
+  "languages_supported": [
+    "en",
+    "te",
+    "hi"
+  ]
+}

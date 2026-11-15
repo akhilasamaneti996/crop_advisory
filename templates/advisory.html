@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}Adaptive Advisory Engine - Adaptive Crop Advisory{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <div class="d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <h1>Multimodal Adaptive Advisory Engine</h1>
+        <p>Synthesizes soil chemistry, crop phenological growth stage, leaf pathology, and live weather conditions into an integrated, explainable farm management plan.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline-secondary btn-sm" id="btnLoadSavedContext">
+          <i class="fa-solid fa-clock-rotate-left me-1"></i> Auto-Fill from Recent Scans
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Multimodal Input Panel -->
+    <div class="col-lg-5">
+      <div class="agro-card p-4">
+        <h5 class="fw-bold text-dark mb-3">
+          <i class="fa-solid fa-sliders text-success me-2"></i>Field Data Modalities
+        </h5>
+
+        <form id="advisoryForm">
+          <!-- Modality 1: Crop & Stage -->
+          <div class="mb-3">
+            <label class="form-label fw-bold text-dark small">1. Crop & Growth Stage</label>
+            <div class="row g-2">
+              <div class="col-6">
+                <input type="text" class="form-control" id="advCropName" name="crop_name" placeholder="Crop (e.g. Tomato, Rice)" value="Tomato" required>
+              </div>
+              <div class="col-6">
+                <select class="form-select" id="advGrowthStage" name="growth_stage">
+                  <option value="Sowing / Seedling">Sowing / Seedling</option>
+                  <option value="Vegetative Stage" selected>Vegetative Stage</option>
+                  <option value="Flowering / Reproductive">Flowering / Reproductive</option>
+                  <option value="Maturity / Harvesting">Maturity / Harvesting</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modality 2: Soil Nutrients & pH -->
+          <div class="mb-3">
+            <label class="form-label fw-bold text-dark small">2. Soil Chemistry & Classification</label>
+            <div class="row g-2 mb-2">
+              <div class="col-4">
+                <input type="number" step="any" class="form-control" id="advNitrogen" placeholder="N (kg/ha)" value="50">
+              </div>
+              <div class="col-4">
+                <input type="number" step="any" class="form-control" id="advPhosphorus" placeholder="P (kg/ha)" value="40">
+              </div>
+              <div class="col-4">
+                <input type="number" step="any" class="form-control" id="advPotassium" placeholder="K (kg/ha)" value="40">
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="input-group">
+                  <span class="input-group-text small bg-light">pH</span>
+                  <input type="number" step="0.1" class="form-control" id="advPh" placeholder="6.5" value="6.5">
+                </div>
+              </div>
+              <div class="col-6">
+                <select class="form-select" id="advSoilType">
+                  <option value="Loamy">Loamy Soil</option>
+                  <option value="Clayey">Clayey Soil</option>
+                  <option value="Black Cotton">Black Cotton</option>
+                  <option value="Sandy Loam">Sandy Loam</option>
+                  <option value="Red Sandy">Red Sandy</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modality 3: Weather Telemetry -->
+          <div class="mb-3">
+            <label class="form-label fw-bold text-dark small">3. Microclimate Telemetry</label>
+            <div class="row g-2 mb-2">
+              <div class="col-6">
+                <div class="input-group">
+                  <span class="input-group-text small bg-light">Temp</span>
+                  <input type="number" step="0.1" class="form-control" id="advTemp" value="28.5">
+                  <span class="input-group-text small bg-light">°C</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="input-group">
+                  <span class="input-group-text small bg-light">Humid</span>
+                  <input type="number" step="1" class="form-control" id="advHumidity" value="78">
+                  <span class="input-group-text small bg-light">%</span>
+                </div>
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="input-group">
+                  <span class="input-group-text small bg-light">Wind</span>
+                  <input type="number" step="1" class="form-control" id="advWind" value="12">
+                  <span class="input-group-text small bg-light">km/h</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-check form-switch pt-2">
+                  <input class="form-check-input" type="checkbox" id="advUpcomingRain">
+                  <label class="form-check-label small" for="advUpcomingRain">Rain in forecast</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modality 4: Leaf Pathology Diagnosis -->
+          <div class="mb-3">
+            <label class="form-label fw-bold text-dark small">4. Leaf Pathology / Disease Status</label>
+            <div class="row g-2">
+              <div class="col-7">
+                <select class="form-select" id="advDiseaseName">
+                  <option value="">No Disease Detected (Healthy)</option>
+                  <option value="Early Blight" selected>Early Blight (Foliar Fungal)</option>
+                  <option value="Late Blight">Late Blight (Water Mold / Oomycete)</option>
+                  <option value="Leaf Rust">Leaf Rust</option>
+                  <option value="Bacterial Spot">Bacterial Spot</option>
+                </select>
+              </div>
+              <div class="col-5">
+                <select class="form-select" id="advIsHealthy">
+                  <option value="false" selected>Infected</option>
+                  <option value="true">Healthy Leaf</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modality 5: Farmer Observation / Query -->
+          <div class="mb-4">
+            <label class="form-label fw-bold text-dark small">5. Farmer Inquiries / Field Observations</label>
+            <input type="text" class="form-control" id="advFarmerQuery" placeholder="e.g. Yellow leaves appearing on lower stems">
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-agro btn-lg" id="btnSubmitAdvisory">
+              <i class="fa-solid fa-gears me-2"></i> Synthesize Multimodal Advisory
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Generated Advisory Results Panel -->
+    <div class="col-lg-7">
+      <!-- Placeholder -->
+      <div id="advisoryPlaceholder" class="agro-card p-4 text-center py-5">
+        <div class="my-5">
+          <i class="fa-solid fa-brain fs-1 text-success opacity-50 mb-3"></i>
+          <h5 class="fw-bold text-dark">Decision Engine Ready</h5>
+          <p class="text-muted small px-4">
+            Configure your farm's multimodal parameters on the left or click "Auto-Fill from Recent Scans". The decision engine will synthesize these factors using explainable agronomic rules and display a tailored action plan.
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Plan Dashboard (Shown on Synthesis) -->
+      <div id="advisoryResultCard" class="d-none">
+        <!-- Risk Level & Header Banner -->
+        <div class="agro-card p-3 mb-3 border-start border-4" id="advRiskBanner">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <span class="small text-muted text-uppercase fw-bold">Overall Farm Pathology & Weather Risk</span>
+              <h4 class="fw-bold mb-0" id="advRiskText">Moderate Risk</h4>
+            </div>
+            <div class="text-end">
+              <span class="badge bg-light text-dark border" id="advCropBadge">-</span>
+              <div class="text-muted small mt-1" id="advStageBadge">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Triggered Decision Rules Card -->
+        <div class="agro-card p-3 mb-3">
+          <h6 class="fw-bold text-dark small mb-2">
+            <i class="fa-solid fa-code-branch text-success me-1"></i> Triggered Agronomic Decision Rules
+          </h6>
+          <ul class="small text-muted mb-0 ps-3" id="advDecisionFactorsList">
+            <!-- Dynamic bullets -->
+          </ul>
+        </div>
+
+        <!-- 1. Irrigation Plan -->
+        <div class="agro-card p-3 mb-3 border-start border-4 border-primary">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="fa-solid fa-droplet text-primary"></i>
+            <h6 class="fw-bold text-dark mb-0">1. Precision Irrigation Advisory</h6>
+          </div>
+          <p class="small text-muted mb-0" id="advIrrigationText">-</p>
+        </div>
+
+        <!-- 2. Fertilizer & Soil Nutrition Plan -->
+        <div class="agro-card p-3 mb-3 border-start border-4 border-warning">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="fa-solid fa-flask text-warning"></i>
+            <h6 class="fw-bold text-dark mb-0">2. Fertilizer & Soil Nutrition Advisory</h6>
+          </div>
+          <p class="small text-muted mb-0" id="advFertilizerText">-</p>
+        </div>
+
+        <!-- 3. Disease Treatment & Phytosanitary Measures -->
+        <div class="agro-card p-3 mb-3 border-start border-4 border-danger">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="fa-solid fa-shield-virus text-danger"></i>
+            <h6 class="fw-bold text-dark mb-0">3. Disease Treatment & Plant Pathology Action</h6>
+          </div>
+          <p class="small text-muted mb-0" id="advDiseaseText">-</p>
+        </div>
+
+        <!-- 4. Weather-Related Field Activities -->
+        <div class="agro-card p-3 mb-3 border-start border-4 border-info">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="fa-solid fa-cloud-sun text-info"></i>
+            <h6 class="fw-bold text-dark mb-0">4. Weather & Chemical Spray Feasibility</h6>
+          </div>
+          <p class="small text-muted mb-0" id="advWeatherText">-</p>
+        </div>
+
+        <!-- 5. General Agronomic Guidance -->
+        <div class="agro-card p-3 mb-4 border-start border-4 border-success">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="fa-solid fa-seedling text-success"></i>
+            <h6 class="fw-bold text-dark mb-0">5. General Phenological Care</h6>
+          </div>
+          <p class="small text-muted mb-0" id="advGeneralText">-</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/advisory.js') }}"></script>
+{% endblock %}
+

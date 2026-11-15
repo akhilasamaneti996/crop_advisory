@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Farmer Dashboard - Adaptive Crop Advisory{% endblock %}
+
+{% block content %}
+<div class="container">
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center page-header">
+    <div>
+      <h1>Farmer Dashboard</h1>
+      <p>Real-time overview of agricultural recommendations, leaf health, and field analytics.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-agro-outline btn-sm" id="btnRefreshDashboard">
+        <i class="fa-solid fa-arrows-rotate me-1"></i> Refresh Data
+      </button>
+      <a href="{{ url_for('advisory.advisory_page') }}" class="btn btn-agro btn-sm">
+        <i class="fa-solid fa-brain me-1"></i> Run Decision Engine
+      </a>
+    </div>
+  </div>
+
+  <!-- Metric Statistics Cards (Backend Loaded) -->
+  <div class="row g-3 mb-4">
+    <div class="col-xl-3 col-sm-6">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fa-solid fa-wheat-awn"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="statCrops">0</h3>
+          <p>Crop Recommendations</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="stat-card">
+        <div class="stat-icon text-danger" style="background: #ffebee;">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="statDiseases">0</h3>
+          <p>Disease Analyses</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="stat-card">
+        <div class="stat-icon text-primary" style="background: #e1f5fe;">
+          <i class="fa-solid fa-comments"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="statQueries">0</h3>
+          <p>Farmer Inquiries</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="stat-card">
+        <div class="stat-icon text-success" style="background: #e8f5e9;">
+          <i class="fa-solid fa-clipboard-check"></i>
+        </div>
+        <div class="stat-info">
+          <h3 id="statAdvisories">0</h3>
+          <p>Adaptive Advisories</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Action Buttons -->
+  <div class="agro-card p-3 mb-4">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <span class="fw-semibold text-dark"><i class="fa-solid fa-bolt text-warning me-2"></i>Quick Actions:</span>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{{ url_for('crop.crop_recommendation_page') }}" class="btn btn-agro btn-sm">
+          <i class="fa-solid fa-plus me-1"></i> New Crop Recommendation
+        </a>
+        <a href="{{ url_for('disease.disease_detection_page') }}" class="btn btn-agro-outline btn-sm">
+          <i class="fa-solid fa-camera me-1"></i> Scan Leaf Image
+        </a>
+        <a href="{{ url_for('weather.weather_page') }}" class="btn btn-agro-outline btn-sm">
+          <i class="fa-solid fa-cloud-sun me-1"></i> Check Weather
+        </a>
+        <a href="{{ url_for('chatbot.chatbot_page') }}" class="btn btn-agro-outline btn-sm">
+          <i class="fa-solid fa-robot me-1"></i> Ask Assistant
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts & Visual Summaries Row -->
+  <div class="row g-4 mb-4">
+    <!-- Chart 1: Recommended Crops Distribution -->
+    <div class="col-lg-7">
+      <div class="agro-card">
+        <div class="card-header">
+          <span><i class="fa-solid fa-chart-column text-success me-2"></i>Recommended Crop Distribution</span>
+          <span class="badge badge-agro-info">Database Records</span>
+        </div>
+        <div class="card-body">
+          <div style="height: 280px; position: relative;">
+            <canvas id="cropChart"></canvas>
+            <div id="cropChartEmpty" class="text-center text-muted py-5 d-none">
+              <i class="fa-solid fa-chart-bar fs-1 opacity-25 mb-2"></i>
+              <p>No crop recommendations recorded yet. Run your first prediction!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 2: Disease vs Healthy Ratio -->
+    <div class="col-lg-5">
+      <div class="agro-card">
+        <div class="card-header">
+          <span><i class="fa-solid fa-chart-pie text-danger me-2"></i>Leaf Health Diagnostics</span>
+          <span class="badge badge-agro-info">Visual Analytics</span>
+        </div>
+        <div class="card-body">
+          <div style="height: 280px; position: relative;">
+            <canvas id="diseaseChart"></canvas>
+            <div id="diseaseChartEmpty" class="text-center text-muted py-5 d-none">
+              <i class="fa-solid fa-chart-pie fs-1 opacity-25 mb-2"></i>
+              <p>No leaf scans performed yet. Upload an image to analyze.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity Feed & Farming Guidance -->
+  <div class="row g-4">
+    <!-- Activity Feed -->
+    <div class="col-lg-8">
+      <div class="agro-card">
+        <div class="card-header">
+          <span><i class="fa-solid fa-clock-rotate-left text-success me-2"></i>Recent Advisory Activities</span>
+          <span class="small text-muted">Latest 8 Activities</span>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr class="small text-muted">
+                  <th>Type</th>
+                  <th>Activity Description</th>
+                  <th>Details</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="activityTableBody">
+                <tr>
+                  <td colspan="4" class="text-center py-4 text-muted">
+                    <span class="agro-spinner me-2" style="border-color: #2d6a4f; border-top-color: transparent;"></span>
+                    Loading recent activities...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Farming Tips & Agronomic Insights -->
+    <div class="col-lg-4">
+      <div class="agro-card">
+        <div class="card-header">
+          <span><i class="fa-solid fa-lightbulb text-warning me-2"></i>Agronomic Best Practices</span>
+        </div>
+        <div class="card-body">
+          <div class="d-flex flex-column gap-3">
+            <div class="p-3 rounded-3 bg-light border-start border-4 border-success">
+              <h6 class="fw-bold mb-1 small text-dark"><i class="fa-solid fa-droplet text-primary me-1"></i> Morning Irrigation</h6>
+              <p class="small text-muted mb-0">Irrigating early between 6:00 AM and 8:30 AM minimizes water loss from wind and high sun evaporation.</p>
+            </div>
+            <div class="p-3 rounded-3 bg-light border-start border-4 border-warning">
+              <h6 class="fw-bold mb-1 small text-dark"><i class="fa-solid fa-flask text-warning me-1"></i> Soil Testing Regularity</h6>
+              <p class="small text-muted mb-0">Test soil NPK and organic carbon every 2-3 years before major sowing to prevent excessive fertilizer runoff.</p>
+            </div>
+            <div class="p-3 rounded-3 bg-light border-start border-4 border-info">
+              <h6 class="fw-bold mb-1 small text-dark"><i class="fa-solid fa-shield-virus text-danger me-1"></i> Preventive Scouting</h6>
+              <p class="small text-muted mb-0">Inspect the lower canopy leaves once every 4 days. Most foliar blights begin on mature bottom foliage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
+
